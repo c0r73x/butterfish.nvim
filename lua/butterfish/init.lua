@@ -453,13 +453,13 @@ butterfish.fix = function()
   end
 
   -- Get the 5 lines before and after the current line
-  local context_start = math.max(1, line_number - 6)
-  local context_end = line_number + 5
+  local context_start = line_diagnostics[1].range.start.line + 1
+  local context_end = line_diagnostics[1].range['end'].line + 1
 
   move_down_to_clear_line()
 
   butterfish.command("fix", error_message, context_start, context_end, nil, butterfish.lm_smart_model)
-  comment_line_or_block(line_number, line_number)
+  comment_line_or_block(context_start, context_end)
 end
 
 -- Implement the next block of code based on the previous lines
